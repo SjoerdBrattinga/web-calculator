@@ -6,7 +6,7 @@ namespace WebCalculator.Models;
 public class CalculatorResponse
 {
     public bool IsSuccess { get; set; } 
-    public Calculation Calculation { get; set; }
+    public OperationResult Calculation { get; set; }
     public List<string> ErrorMessages { get; set; }
 
     public CalculatorResponse()

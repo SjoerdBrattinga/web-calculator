@@ -5,7 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using WebCalculator.Validations;
 using WebCalculator.Service;
 using WebCalculator.Domain.Interfaces;
-using WebCalculator.Domain.Operations;
+using WebCalculator.Domain.Operations.Binary;
+using WebCalculator.Domain.Operations.Unary;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,6 +24,7 @@ builder.Services.AddTransient<IOperation, Division>();
 builder.Services.AddTransient<IOperation, Square>();
 builder.Services.AddTransient<IOperation, SquareRoot>();
 builder.Services.AddTransient<IOperation, Exponent>();
+builder.Services.AddTransient<IOperation, Negate>();
 builder.Services.AddSingleton<Func<IEnumerable<IOperation>>>
     (x => () => x.GetService<IEnumerable<IOperation>>()!);
 builder.Services.AddSingleton<IOperationFactory, OperationFactory>();

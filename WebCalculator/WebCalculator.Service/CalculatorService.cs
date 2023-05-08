@@ -15,129 +15,40 @@ namespace WebCalculator.Service
 
         public CalculatorResult Calculate(Calculation calculation)
         {
-            double result = 0;
             try
-            {
+            {               
+                if (string.IsNullOrEmpty(calculation.Operator))
+                {
+                    return CalculatorResult.Failure("Operator is required");
+                }
+
                 var operation = _operationFactory.Create(calculation.Operator);
+
+                if (operation is BinaryOperation binaryOperation && 
+                    calculation.Operand1.HasValue && calculation.Operand2.HasValue)
+                {
+                    binaryOperation.Operand1 = calculation.Operand1.Value;
+                    binaryOperation.Operand2 = calculation.Operand2.Value;
+                }
+                else if (operation is UnaryOperation unaryOperation 
+                    && calculation.Operand1.HasValue) 
+                {                    
+                    unaryOperation.Operand = calculation.Operand1.Value;
+                }
+                else
+                {
+                    return CalculatorResult.Failure("Invalid operation");
+                }
+
+                OperationResult result = operation.Calculate();
+
+                return new CalculatorResult(result);
                 
-
-                if (operation is IBinaryOperation)
-                {
-
-                }
-                else if (operation is IUnaryOperation) 
-                {
-
-                }
-
-                //result.Result = operation.Calculate();
-                //result.Operation = operation;
-
-                return CalculatorResult.Success(result);
             }
             catch (Exception ex)
             {                
                 return CalculatorResult.Failure(ex.Message);
-            }
-
-            //CalculatorResult result = new()
-            //{
-            //    IsSuccess = true
-            //};          
-
-            //try
-            //{
-            //    var operation = OperationFactory.CreateOperation(calculation);
-
-            //    result.Result = operation.Calculate();
-            //    result.Operation = operation;
-
-            //    return result;
-            //}
-            //catch (Exception ex)
-            //{
-            //    result.IsSuccess = false;
-            //    result.ErrorMessage = ex.Message;
-
-            //    return result;
-            //}            
+            }            
         }
-
-  
-
-            //public Calculation PerformCalculation(Calculation calculation)
-            //{
-            //    if (calculation is null)
-            //    {
-            //        throw new ArgumentNullException(nameof(calculation));
-            //    }
-
-            //    if(calculation.Operand2.HasValue)
-            //    {
-            //        calculation.Result = calculation.Operator switch
-            //        {
-            //            "+" => (double)(calculation.Operand1 + calculation.Operand2.Value),
-            //            "-" => (double)(calculation.Operand1 - calculation.Operand2.Value),
-            //            "*" => (double)(calculation.Operand1 * calculation.Operand2.Value),
-            //            "/" => (double)(calculation.Operand1 / calculation.Operand2.Value),
-            //            "%" => Percentage(calculation.Operand1, calculation.Operand2.Value),
-            //            "^" => Power(calculation.Operand1, calculation.Operand2.Value),
-            //            _ => null
-            //        }; 
-            //    }
-            //    else
-            //    {
-            //        calculation.Result = calculation.Operator switch
-            //        {
-            //            "+-" => Negate(calculation.Operand1),
-            //            "sqr" => Square(calculation.Operand1),
-            //            "sqr_r" => SquareRoot(calculation.Operand1),
-            //            _ => null
-            //        };
-
-            //    }
-
-            //    return calculation;
-            //}
-
-            //private IOperation GetOperation(string operatorType)
-            //{
-            //    switch (operatorType)
-            //    {
-            //        case "+":
-            //            return new Addition();
-            //        case "-":
-            //            return new SubtractionOperation();
-            //        case "*":
-            //            return new MultiplicationOperation();
-            //        case "/":
-            //            return new DivisionOperation();
-            //        case "sqrt":
-            //            return new SquareRootOperation();
-            //        default:
-            //            return null;
-            //    }
-            //}
-
-
-            //public OperationType GetOperationType(string @operator)
-            //{
-            //    return @operator switch
-            //    {
-            //        "+" => OperationType.Addition,
-            //        "-" => OperationType.Substaction,
-            //        "*" => OperationType.Multiplication,
-            //        "/" => OperationType.Division,
-            //        "sqr" => OperationType.Square,
-            //        "sqr_r" => OperationType.SquareRoot,
-            //        "%" => OperationType.Percentage,
-            //        "^" => OperationType.Exponent,
-            //        _ => OperationType.Invalid,
-            //    };
-            //}
-
-
-   
-
     }
 }
