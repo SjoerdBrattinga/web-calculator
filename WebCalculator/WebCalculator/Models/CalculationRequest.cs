@@ -11,7 +11,6 @@ public class CalculationRequest
     public double? Operand2 { get; set; }
 
     [Required(ErrorMessage = "Operator is required")]
-    //[RegularExpression("[+\\-*/]", ErrorMessage = "Invalid operator")]
     public string Operator { get; set; }
 }
 

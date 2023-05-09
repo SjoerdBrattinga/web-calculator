@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace WebCalculator.Domain.Models;
+﻿namespace WebCalculator.Domain.Models;
 
 public class Calculation
 {

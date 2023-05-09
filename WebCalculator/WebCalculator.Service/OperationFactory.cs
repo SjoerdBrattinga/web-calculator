@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebCalculator.Domain.Interfaces;
-using WebCalculator.Domain.Models;
-using WebCalculator.Domain.Operations;
+﻿using WebCalculator.Domain.Interfaces;
 
 namespace WebCalculator.Service;
 

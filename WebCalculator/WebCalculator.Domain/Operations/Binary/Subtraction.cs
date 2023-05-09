@@ -4,7 +4,7 @@ namespace WebCalculator.Domain.Operations.Binary;
 
 public class Subtraction : BinaryOperation
 {
-    public override string OperatorType => "-"; 
+    public override string OperatorType => "-";
     public override int Precedence => 1;
 
     public override OperationResult Calculate()

@@ -1,12 +1,11 @@
-using WebCalculator;
 using FluentValidation;
 using System.Text.Json.Serialization;
-using Microsoft.AspNetCore.Mvc;
-using WebCalculator.Validations;
-using WebCalculator.Service;
+using WebCalculator;
 using WebCalculator.Domain.Interfaces;
 using WebCalculator.Domain.Operations.Binary;
 using WebCalculator.Domain.Operations.Unary;
+using WebCalculator.Service;
+using WebCalculator.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
 

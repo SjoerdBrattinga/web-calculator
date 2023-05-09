@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace WebCalculator.Domain.Models;
+﻿namespace WebCalculator.Domain.Models;
 
 public class OperationResult
 {

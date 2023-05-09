@@ -4,7 +4,7 @@ namespace WebCalculator.Domain.Operations.Binary;
 
 public class Multiplication : BinaryOperation
 {
-    public override string OperatorType => "*"; 
+    public override string OperatorType => "*";
     public override int Precedence => 2;
 
     public override OperationResult Calculate()
