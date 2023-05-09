@@ -1,10 +1,9 @@
 ﻿using FluentValidation;
-using WebCalculator.Domain;
 using WebCalculator.Domain.Interfaces;
 using WebCalculator.Domain.Models;
 using WebCalculator.Models;
 
-namespace WebCalculator;
+namespace WebCalculator.Api;
 
 public static class Api
 {

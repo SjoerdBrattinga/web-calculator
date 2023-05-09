@@ -13,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WebCalculator.Application\WebCalculator.Application.csproj" />
     <ProjectReference Include="..\WebCalculator.Domain\WebCalculator.Domain.csproj" />
-    <ProjectReference Include="..\WebCalculator.Service\WebCalculator.Application.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,6 +1,6 @@
 ﻿using WebCalculator.Domain.Interfaces;
 
-namespace WebCalculator.Service;
+namespace WebCalculator.Application;
 
 public class OperationFactory : IOperationFactory
 {

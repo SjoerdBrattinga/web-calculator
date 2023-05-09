@@ -1,10 +1,10 @@
 using FluentValidation;
 using System.Text.Json.Serialization;
-using WebCalculator;
+using WebCalculator.Api;
+using WebCalculator.Application;
 using WebCalculator.Domain.Interfaces;
 using WebCalculator.Domain.Operations.Binary;
 using WebCalculator.Domain.Operations.Unary;
-using WebCalculator.Service;
 using WebCalculator.Validations;
 
 var builder = WebApplication.CreateBuilder(args);
