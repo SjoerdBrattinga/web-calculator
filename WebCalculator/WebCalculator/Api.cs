@@ -31,9 +31,6 @@ public static class Api
     {
         try
         {
-            List<string> c = Constants.SupportedOperators;
-            List<string> u = Constants.UnaryOperators;
-            List<string> b = Constants.BinaryOperators;
             var validationResult = _validator.Validate(request);
 
             if (!validationResult.IsValid)
@@ -104,57 +101,6 @@ public static class Api
 
         }
     }
-    //private static CalculatorResponse Addition(double a, double b, ICalculator calculator)
-    //{
-    //    CalculatorResponse response = new();
-    //    var result = calculator.Add(a, b);
-    //    if(result.iss)
-    //    result.StatusCode = System.Net.HttpStatusCode.OK; 
-    //    return result;
-    //}
-
-    //private static IResult Calculate([FromBody] CalculationRequest calculationRequest, IValidator<CalculationRequest> _validator)
-    //{   
-    //    try
-    //    {
-    //        CalculatorResponse calculationResult = new();
-    //        var validationResult = _validator.Validate(calculationRequest);
-
-    //        if (!validationResult.IsValid)
-    //        {
-    //            return Results.ValidationProblem(validationResult.ToDictionary());
-    //        }
-
-
-    //        Calculation calculation = new()
-    //        {
-    //            Operator = calculationRequest.Operator,
-    //            Operand1 = calculationRequest.Operand1.Value,
-    //            Operand2 = calculationRequest.Operand2.Value
-    //        };
-
-
-
-    //        calculationResult.Result = Calculator.Calculate(calculation);
-
-
-    //        return Results.Ok(calculationResult.Result);                           
-
-    //    }
-    //    catch (DivideByZeroException ex)
-    //    {
-    //        return Results.BadRequest(ex.Message);
-    //    }
-    //    catch (ArgumentException ex)
-    //    {
-    //        return Results.BadRequest(ex.Message);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return Results.Problem(ex.Message);            
-
-    //    }
-    //}
 }
 
 
