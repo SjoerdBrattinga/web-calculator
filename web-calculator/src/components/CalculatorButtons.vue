@@ -53,9 +53,10 @@
   }
   .btn {
     font-size: 1em;
-
-    /* border: 1px solid black; */
-    width: 100%;
+    margin: 5px;
+    border: 1px solid black;
+    border-radius: 10px;
+    /* width: 100%; */
     height: 60px;
   }
 

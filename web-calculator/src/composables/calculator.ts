@@ -28,6 +28,7 @@ export const useCalculator = () => {
         break
     }
   }
+
   const handleClear = () => {
     display.value = '0'
   }
@@ -40,12 +41,25 @@ export const useCalculator = () => {
   }
 
   const handleEqual = () => {
+    add()
     try {
       display.value = eval(display.value)
     } catch (error) {
       display.value = 'Error'
     }
   }
+
+  const add = async () => {
+
+    try {
+      const response = await fetch('https://localhost:7114/api/add/1/2')
+      const result = await response.json();
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
   // const calculatorDisplay = computed(() => display.value, {
   //   onTrigger(e) {
   //     // triggered when count.value is mutated
@@ -57,4 +71,5 @@ export const useCalculator = () => {
     display,
     handleButtonClick
   }
+
 }

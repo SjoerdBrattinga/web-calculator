@@ -1,9 +1,12 @@
 <template>
   <!-- <header> -->
   <!-- </header> -->
-  <main>
+  <!-- <main> -->
+
+  <!-- </main> -->
+  <div class="container">
     <BasicCalculator />
-  </main>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -11,7 +14,7 @@
 </script>
 
 <style scoped>
-  main {
+  .container {
     width: 100%;
     height: 100vh;
     background-color: rgb(59, 65, 65);

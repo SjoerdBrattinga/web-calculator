@@ -19,6 +19,7 @@
     padding: 0.3em;
     text-align: right;
     width: 100%;
+    border-radius: 10px;
     /* height: 100px; */
   }
 </style>

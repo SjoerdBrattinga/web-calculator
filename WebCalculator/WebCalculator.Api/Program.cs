@@ -1,6 +1,6 @@
 using FluentValidation;
 using System.Text.Json.Serialization;
-using WebCalculator.Api;
+using WebCalculator.Api.Endpoints;
 using WebCalculator.Application;
 using WebCalculator.Domain.Interfaces;
 using WebCalculator.Domain.Operations.Binary;
@@ -35,6 +35,17 @@ builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =
     options.SerializerOptions.NumberHandling = JsonNumberHandling.AllowNamedFloatingPointLiterals;
 });
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowedOrigins",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5174")  
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -42,12 +53,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors("AllowedOrigins");
 }
 
 app.UseHttpsRedirection();
 
-app.ConfigureBasicApi();
-app.ConfigureApi();
+app.ConfigureBasicCalculatorApi();
+app.ConfigureCalculatorApi();
 
 app.Run();
 
