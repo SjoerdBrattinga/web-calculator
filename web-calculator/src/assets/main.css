@@ -1,4 +1,49 @@
 @import './base.css';
+
+:root {
+  --color-primary-0: #fffaf7; /* Main Primary color */
+  --color-primary-1: #c3bfbd;
+  --color-primary-2: #d4cdca;
+  --color-primary-3: #fffefd;
+  --color-primary-4: #fffefe;
+  --color-primary-5: #ff8000;
+  --color-primary-6: #cf4949;
+
+  --color-secondary-1-0: #464543; /* Main Secondary color (1) */
+  --color-secondary-1-1: #555350;
+  --color-secondary-1-2: #42413f;
+  --color-secondary-1-3: #3f3e3c;
+  --color-secondary-1-4: #3b3a38;
+
+  --color-secondary-2-0: #062352; /* Main Secondary color (2) */
+  --color-secondary-2-1: #051d42;
+  --color-secondary-2-2: #05204b;
+  --color-secondary-2-3: #072a62;
+  --color-secondary-2-4: #093272;
+
+  --color-complement-0: #35856d; /* Main Complement color */
+  --color-complement-1: #37d7a7;
+  --color-complement-2: #35a583;
+  --color-complement-3: #2d584b;
+  --color-complement-4: #1a2a25;
+}
+
+:root {
+  --btn-background: var(--color-secondary-1-0);
+  --btn-color: var(--color-primary-1);
+  --btn-hover: var(--color-secondary-1-1);
+
+  --btn-number-background: var(--color-complement-0);
+  --btn-operator-background: var(--color-secondary-1-0);
+  --btn-clear-background: var(--color-secondary-1-0);
+  --btn-equal-background: var(--color-complement-1);
+
+  --btn-number-color: var(--color-secondary-1-0);
+  --btn-operator-color: var(--color-secondary-2-0);
+  --btn-clear-color: var(--color-secondary-2-0);
+  --btn-equal-color: var(--color-secondary-2-0);
+}
+
 /* 
 #app {
   max-width: 1280px;

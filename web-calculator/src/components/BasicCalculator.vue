@@ -14,14 +14,10 @@
 
 <style>
   .calculator {
-    width: 40%;
-    /* padding-bottom: 50%; */
-    /* width: 100%;
-    max-width: 500px; */
-    /* height: 100%;
-    max-height: 500px; */
-    /* background: #eee; */
+    min-width: 250px;
+    width: 30%;
     padding: 10px;
     border-radius: 10px;
+    background-color: var(--color-complement-4);
   }
 </style>

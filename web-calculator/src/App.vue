@@ -17,7 +17,8 @@
   .container {
     width: 100%;
     height: 100vh;
-    background-color: rgb(59, 65, 65);
+    /* background-color: var(--color-secondary-1-4); */
+    background-color: var(--color-primary-2);
     display: flex;
     align-items: center;
     justify-content: center;

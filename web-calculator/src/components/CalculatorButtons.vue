@@ -1,5 +1,15 @@
 <template>
   <div>
+    <!-- <div class="calculator-buttons">
+      <button
+        class="btn"
+        v-for="button in advancedButtons"
+        :key="button.value"
+        @click="handleButtonClick(button)"
+      >
+        {{ button.label }}
+      </button>
+    </div> -->
     <div class="calculator-buttons">
       <button
         class="btn"
@@ -22,26 +32,35 @@
   const { handleButtonClick } = useCalculator()
 
   const buttons: Button[] = [
-    { label: 'AC', value: 'clear', class: 'operator' },
-    { label: 'CE', value: 'backspace', class: 'operator' },
-    { label: '%', value: '%', class: 'operator' },
-    { label: '/', value: '/', class: 'operator' },
-    { label: '7', value: '7' },
-    { label: '8', value: '8' },
-    { label: '9', value: '9' },
-    { label: '*', value: '*', class: 'operator' },
-    { label: '4', value: '4' },
-    { label: '5', value: '5' },
-    { label: '6', value: '6' },
+    { label: 'xʸ', value: '' },
+    { label: 'CE', value: 'ce', class: 'clear' },
+    { label: 'C', value: 'c', class: 'clear' },
+    { label: '⌫', value: 'backspace', class: 'clear' },
+
+    { label: '1/x', value: '' },
+    { label: 'x²', value: '**2' },
+    { label: '²√x', value: 'Math.sqrt' },
+    { label: '÷', value: '/', class: 'operator' },
+
+    { label: '7', value: '7', class: 'number' },
+    { label: '8', value: '8', class: 'number' },
+    { label: '9', value: '9', class: 'number' },
+    { label: 'x', value: '*', class: 'operator' },
+
+    { label: '4', value: '4', class: 'number' },
+    { label: '5', value: '5', class: 'number' },
+    { label: '6', value: '6', class: 'number' },
     { label: '-', value: '-', class: 'operator' },
-    { label: '1', value: '1' },
-    { label: '2', value: '2' },
-    { label: '3', value: '3' },
+
+    { label: '1', value: '1', class: 'number' },
+    { label: '2', value: '2', class: 'number' },
+    { label: '3', value: '3', class: 'number' },
     { label: '+', value: '+', class: 'operator' },
-    { label: '&#177;', value: 'negate', class: 'operator', parseHTML: true },
-    { label: '0', value: '0' },
+
+    { label: '±', value: 'negate', class: '' },
+    { label: '0', value: '0', class: 'number' },
     { label: '.', value: '.' },
-    { label: '=', value: 'equal', class: 'operator' }
+    { label: '=', value: 'equal', class: 'equal' }
   ]
 </script>
 
@@ -49,22 +68,37 @@
   .calculator-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    border: 0;
+    grid-gap: 10px;
   }
   .btn {
-    font-size: 1em;
-    margin: 5px;
+    background-color: var(--btn-background);
+    color: var(--btn-color);
+    height: 60px;
+    font-size: 1.5em;
     border: 1px solid black;
     border-radius: 10px;
-    /* width: 100%; */
-    height: 60px;
-  }
 
+    transition: background-color 0.1s ease-in-out, color 0.3s ease-in-out;
+  }
   .btn:hover {
-    background: #fff;
+    background: var(--btn-hover);
+    color: var(--color-primary-5);
   }
 
-  .operator {
-    background-color: rgb(98, 169, 211);
+  .operator:hover {
+    /* color: var(--color-primary-5) !important; */
+  }
+  .clear:hover {
+    color: var(--color-primary-6) !important;
+  }
+  /* .equal:hover {
+    color: var(--color-complement-1) !important;
+  } */
+  .number {
+    background-color: var(--btn-number-background) !important;
+  }
+  .number:hover {
+    background-color: var(--color-complement-2) !important;
+    color: var(--color-primary-0);
   }
 </style>
