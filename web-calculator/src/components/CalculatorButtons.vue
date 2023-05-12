@@ -16,10 +16,12 @@
         :class="button.class"
         v-for="button in buttons"
         :key="button.value"
-        @click="handleButtonClick(button)"
+        @click="button.function(button)"
       >
-        <span v-if="button.parseHTML" v-html="button.label"></span>
-        <span v-else>{{ button.label }}</span>
+        <!-- handleButtonClick(button) -->
+        {{ button.label }}
+        <!-- <span v-if="button.parseHTML" v-html="button.label"></span> -->
+        <!-- <span v-else>{{ button.label }}</span> -->
       </button>
     </div>
   </div>
@@ -27,41 +29,57 @@
 
 <script setup lang="ts">
   import { useCalculator } from '@/composables/calculator'
-  import type { Button } from '@/types/Button'
+  import type { Button } from '@/types/types'
+  // import { type } from 'os'
 
-  const { handleButtonClick } = useCalculator()
+  const { handleButtonClick, buttons } = useCalculator()
+  //   type buttonType = { numberBtn | operatorBtn | clearBtn }
+  //   type numberBtn = {
+  //   /**
+  //    * The full name of the Programmer
+  //    */
+  //   label: string;
+  //   value:string;
+  //   class:string;
+  //   /**
+  //    * This Programmer is known for what?
+  //    */
+  //   knownFor: string[];
+  // };
+  // type numberBtn = {
 
-  const buttons: Button[] = [
-    { label: 'xʸ', value: '' },
-    { label: 'CE', value: 'ce', class: 'clear' },
-    { label: 'C', value: 'c', class: 'clear' },
-    { label: '⌫', value: 'backspace', class: 'clear' },
+  // }
+  // const buttons: Button[] = [
+  //   { label: 'xʸ', value: 'power' },
+  //   { label: 'CE', value: 'clear-entry', class: 'clear', func:  },
+  //   { label: 'C', value: 'clear', class: 'clear' },
+  //   { label: '⌫', value: 'backspace', class: 'clear' },
 
-    { label: '1/x', value: '' },
-    { label: 'x²', value: '**2' },
-    { label: '²√x', value: 'Math.sqrt' },
-    { label: '÷', value: '/', class: 'operator' },
+  //   { label: '1/x', value: '' },
+  //   { label: 'x²', value: 'sqr' },
+  //   { label: '²√x', value: 'sqrt' },
+  //   { label: '÷', value: '/', class: 'operator' },
 
-    { label: '7', value: '7', class: 'number' },
-    { label: '8', value: '8', class: 'number' },
-    { label: '9', value: '9', class: 'number' },
-    { label: 'x', value: '*', class: 'operator' },
+  //   { label: '7', value: '7', class: 'number' },
+  //   { label: '8', value: '8', class: 'number' },
+  //   { label: '9', value: '9', class: 'number' },
+  //   { label: 'x', value: '*', class: 'operator' },
 
-    { label: '4', value: '4', class: 'number' },
-    { label: '5', value: '5', class: 'number' },
-    { label: '6', value: '6', class: 'number' },
-    { label: '-', value: '-', class: 'operator' },
+  //   { label: '4', value: '4', class: 'number' },
+  //   { label: '5', value: '5', class: 'number' },
+  //   { label: '6', value: '6', class: 'number' },
+  //   { label: '-', value: '-', class: 'operator' },
 
-    { label: '1', value: '1', class: 'number' },
-    { label: '2', value: '2', class: 'number' },
-    { label: '3', value: '3', class: 'number' },
-    { label: '+', value: '+', class: 'operator' },
+  //   { label: '1', value: '1', class: 'number' },
+  //   { label: '2', value: '2', class: 'number' },
+  //   { label: '3', value: '3', class: 'number' },
+  //   { label: '+', value: '+', class: 'operator' },
 
-    { label: '±', value: 'negate', class: '' },
-    { label: '0', value: '0', class: 'number' },
-    { label: '.', value: '.' },
-    { label: '=', value: 'equal', class: 'equal' }
-  ]
+  //   { label: '±', value: 'negate', class: '' },
+  //   { label: '0', value: '0', class: 'number' },
+  //   { label: '.', value: '.' },
+  //   { label: '=', value: 'equal', class: 'equal' }
+  // ]
 </script>
 
 <style scoped>

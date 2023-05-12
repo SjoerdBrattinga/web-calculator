@@ -14,7 +14,7 @@ public static class CalculatorApi
     {
         app.MapPost("/calculate", Calculate).Produces<CalculatorResult>(200).Produces(400);
         app.MapGet("/api/perform-operation", PerformOperation).Produces<OperationResult>(200).Produces(400);
-        //app.MapGet("/calculate/{operand1}/{operator}/{operand2?}", Calculate2).Produces<IResult>().Produces(400);
+        //app.MapGet("api/calculate/{operand1}/{operator}/{operand2?}", PerformOperation).Produces<OperationResult>(200).Produces(400);
     }
 
     private static IResult Calculate(CalculationRequest request, IValidator<CalculationRequest> _validator, ICalculatorService calculator)
