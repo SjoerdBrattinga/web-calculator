@@ -12,8 +12,9 @@ public static class CalculatorApi
 {    
     public static void ConfigureCalculatorApi(this WebApplication app)
     {
-        app.MapPost("/calculate", Calculate).Produces<CalculatorResult>(200).Produces(400);
-        app.MapGet("/api/perform-operation", PerformOperation).Produces<OperationResult>(200).Produces(400);
+       // app.MapPost("/calculate", Calculate).Produces<CalculatorResult>(200).Produces(400);
+        //app.MapGet("/api/perform-operation", PerformOperation).Produces<OperationResult>(200).Produces(400);
+        app.MapPost("/api/perform-operation", PerformOperation).Produces<OperationResult>(200).Produces(400);
         //app.MapGet("api/calculate/{operand1}/{operator}/{operand2?}", PerformOperation).Produces<OperationResult>(200).Produces(400);
     }
 
@@ -56,9 +57,9 @@ public static class CalculatorApi
         }
     }
 
-    private static IResult PerformOperation([AsParameters] CalculationRequest request, 
+    private static IResult PerformOperation(CalculationRequest request, 
         IOperationFactory _operationFactory, IValidator<CalculationRequest> _validator)
-        //double operand1, string @operator, double? operand2 = null
+        //double operand1, string @operator, double? operand2 = null)
     {
         
         try

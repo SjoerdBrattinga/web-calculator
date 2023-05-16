@@ -1,122 +1,97 @@
-import type { Button, CalculatorInput } from '@/types/types'
+import type { Button } from '@/types/types'
 import axios from 'axios'
 import { ref } from 'vue'
-// import { computed } from 'vue'
-interface CalculatorRequest {
-  operand1: number;
-  operand2?: number;
-  operatorType: string;
-}
+
+
 
 const display = ref('0')
 const expression = ref('')
+const number1 = ref('')
+const number2 = ref('')
+const operator = ref('')
+const result = ref('')
+
+const history = ref<string[]>([])
+
+interface CalculatorRequest {
+  operand1: number;
+  operand2?: number | null;
+  operator: string;
+}
+interface CalculatorResponse {
+  isSuccess: boolean
+  result: number
+  operation: string
+  errorMessage: string
+}
+
 
 export const useCalculator = () => {
-  const unaryOperators = ['negate', 'sqr', 'sqrt']
-  //const binaryOperators = ['+', '-', '*', '/', '^']
-  const num1 = ref();
-  const num2 = ref();
-  const op = ref();
+  const unaryOperators = ['negate', 'sqr', 'sqrt', 'power']
+  const binaryOperators = ['+', '-', '*', '/', '^']
 
-  const performOperarion = async () => {
+  const operatorSelected = ref(false)
+
+
+  const handleButtonClick = (buttonValue: string) => {
+
+    if (Number(buttonValue)) {
+      if (display.value === '0' && buttonValue !== '.') {
+        display.value = buttonValue
+      } else if (operatorSelected.value) {
+        display.value = buttonValue
+
+      } else {
+        display.value += buttonValue
+      }
+      operatorSelected.value = false
+    } else {
+      operator.value = buttonValue
+      operatorSelected.value = true
+      if (number1.value === '') {
+        number1.value = display.value
+        //updateExpressionValue(buttonValue)
+      } else if (number2.value === '') {
+        number2.value = display.value
+      }
+
+      updateExpressionValue2()
+
+      if (number1.value !== '' && unaryOperators.includes(buttonValue)) {
+        performOperarion({ operand1: +number1.value, operator: operator.value })
+      } else if (binaryOperators.includes(buttonValue) && number1.value !== '' && number2.value) {
+        performOperarion({ operand1: +number1.value, operator: operator.value, operand2: +number2.value })
+      }
+
+    }
+  }
+
+  const performOperarion = async (request: CalculatorRequest) => {
     try {
-      // const response = await axios(`https://localhost:7114/api/perform-operation/${num1.value}/${op.value}/${num2.value}`)
-      const response = await axios.get(`https://localhost:7114/api/perform-operation`, {
-        params: {
-          Operand1: +num1.value,
-          Operand2: +num2.value,
-          Operator: op.value
-        }
-      })
+      const response = await axios.post<CalculatorResponse>(`https://localhost:7114/api/perform-operation`, request)
 
       handleResponse(response.data)
+
 
     } catch (error) {
       console.error(error);
     }
   }
 
-  function handleResponse(response) {
-    if (response.isSuccess) {
-      display.value = response.result
-      updateExpressionValue(response.operation)
-      resetOperationParams()
+  function handleResponse(response: CalculatorResponse) {
+    if (response.isSuccess && response.result) {
+      number1.value = response.result.toString()
+      display.value = number1.value
+      number2.value = ''
+      updateExpressionValue2()
+      history.value.push(`${response.operation} = ${response.result}`)
+
+      //expression.value = response.operation
     } else {
       console.log(response.errorMessage)
     }
-
   }
 
-  const resetOperationParams = () => {
-    num1.value = undefined
-    num2.value = undefined
-    op.value = undefined
-  }
-
-  const handleButtonClick = (button: Button) => {
-    if (button.class === 'number') {
-
-      if (display.value === '0' && button.value !== '.') {
-        display.value = button.value
-      } else {
-        display.value += button.value
-      }
-    } else if (button.class === 'operator') {
-      num1.value = display.value
-      op.value = button.value
-
-      if (expression.value === '') {
-        //expression.value = display.value
-      } else {
-        //expression.value += '' + display.value
-      }
-      if (num1.value !== undefined && unaryOperators.includes(button.value)) {
-        performOperarion()
-      }
-      //parseDisplayValue()
-
-      // if (unaryOperators.includes(button.value) && num1.value !== '') {
-      //   num1.value = display.value
-      //   performOperarion()
-      // } else {
-      //   display.value = button.value
-      //   // num2.value += button.value;
-      // }
-      // if(num1.value === ''){
-      //   num1.value += button.value;
-      // } else if
-      // if (display.value === '0' && button.value !== '.') {
-      //   display.value = button.value
-      // } else {
-      //   display.value += button.value
-
-
-
-    }
-  }
-
-  function parseDisplayValue() {
-    const regex = /^(-?\d+\.?\d*)(\D)(-?\d+\.?\d*)?$/;
-    const matches = display.value.match(regex);
-
-    if (!matches) {
-      throw new Error('Invalid display value');
-    }
-
-    num1.value = Number(matches[1]);
-    op.value = matches[2];
-    num2.value = matches[3] ? Number(matches[3]) : null;
-
-    console.log(`num1: ${num1.value} op: ${op.value} num1: ${num2.value}`)
-    const request = {
-      operand1: Number(matches[1]),
-      operatorType: matches[2],
-      operand2: matches[3] ? Number(matches[3]) : null
-    }
-    //performOperarion(request);
-    //return { operand1, operator, operand2 };
-  }
-  const updateExpressionValue = (value: string) => expression.value += value
 
   const handleClear = () => {
     resetDisplayValue()
@@ -124,7 +99,6 @@ export const useCalculator = () => {
   }
 
   const resetDisplayValue = () => display.value = '0'
-
   const resetExpressionValue = () => expression.value = ''
 
   const handleBackspace = () => {
@@ -139,17 +113,58 @@ export const useCalculator = () => {
   }
 
 
-
-
-  const handleEqual = () => {
-
-    try {
-      //performOperarion()
-      display.value = eval(expression.value)
-    } catch (error) {
-      display.value = 'Error'
+  function handleEqual(): void {
+    if (!operator.value || !number1.value) {
+      return;
     }
   }
+
+
+
+  const resetOperationParams = () => {
+    number1.value = ''
+    number2.value = ''
+    operator.value = ''
+  }
+
+
+
+
+  const updateExpressionValue = (value: string) => {
+
+    expression.value += value
+
+  }
+
+  const updateExpressionValue2 = () => {
+    // console.log(number1.value, number2.value, operator.value)
+    // if (number2.value !== '') {
+    //   expression.value = `${number1.value} ${operator.value} ${number2.value} =`
+    // } else {
+    //   expression.value = `${number1.value} ${operator.value}`
+    // }
+    expression.value = `${number1.value} ${operator.value}`
+
+
+  }
+  // const expression2 = computed(() => {
+  //   return expression.value = num1.value + " " + op.value
+  // })
+
+
+
+
+
+  // const handleEqual = () => {
+
+  //   try {
+  //     performOperarion()
+  //     //display.value = eval(expression.value)
+  //   } catch (error) {
+  //     display.value = 'Error'
+  //   }
+  // }
+
 
 
   const buttons: Button[] = [
@@ -181,21 +196,18 @@ export const useCalculator = () => {
     { label: '±', value: 'negate', class: 'operator', function: handleButtonClick },
     { label: '0', value: '0', class: 'number', function: handleButtonClick },
     { label: '.', value: '.', class: 'number', function: handleButtonClick },
-    { label: '=', value: 'equal', class: 'equal', function: performOperarion }
+    { label: '=', value: 'equal', class: 'equal', function: handleEqual }
   ]
 
-  // const calculatorDisplay = computed(() => display.value, {
-  //   onTrigger(e) {
-  //     // triggered when count.value is mutated
-  //     debugger
-  //   }
-  // })
 
   return {
     display,
     expression,
+    history,
     buttons,
     handleButtonClick
   }
 
 }
+
+
