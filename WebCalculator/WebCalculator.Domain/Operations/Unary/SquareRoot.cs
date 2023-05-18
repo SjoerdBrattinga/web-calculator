@@ -4,7 +4,7 @@ namespace WebCalculator.Domain.Operations.Unary;
 
 public class SquareRoot : UnaryOperation
 {
-    public override string OperatorType => "sqrt";
+    public override string OperatorType => "√";
     public override int Precedence => 3;
 
     public override OperationResult Calculate()

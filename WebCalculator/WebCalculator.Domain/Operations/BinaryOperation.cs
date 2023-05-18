@@ -17,6 +17,6 @@ public abstract class BinaryOperation : IOperation
 
     public override string ToString()
     {
-        return $"{Operand1} {OperatorType} {Operand2}";
+        return $"{Operand1} {OperatorType} {Operand2} ";
     }
 }

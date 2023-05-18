@@ -3,7 +3,7 @@
 public class CalculatorResult
 {
     public bool IsSuccess { get; set; }
-    public OperationResult? Result { get; set; }
+    public OperationResult? Operation { get; set; }
     public string? ErrorMessage { get; set; }
 
     private CalculatorResult() { }
@@ -11,7 +11,7 @@ public class CalculatorResult
     {
 
         IsSuccess = result.IsSuccess;
-        Result = result;
+        Operation = result;
         ErrorMessage = result.IsSuccess ? null : result.ErrorMessage;
 
     }

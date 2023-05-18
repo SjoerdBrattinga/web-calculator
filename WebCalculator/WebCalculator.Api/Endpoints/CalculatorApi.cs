@@ -14,7 +14,7 @@ public static class CalculatorApi
     {
        // app.MapPost("/calculate", Calculate).Produces<CalculatorResult>(200).Produces(400);
         //app.MapGet("/api/perform-operation", PerformOperation).Produces<OperationResult>(200).Produces(400);
-        app.MapPost("/api/perform-operation", PerformOperation).Produces<OperationResult>(200).Produces(400);
+        app.MapPost("/api/perform-operation", PerformOperation2).Produces<OperationResult>(200).Produces(400);
         //app.MapGet("api/calculate/{operand1}/{operator}/{operand2?}", PerformOperation).Produces<OperationResult>(200).Produces(400);
     }
 
@@ -75,11 +75,10 @@ public static class CalculatorApi
 
             if (operation is null)
             {
-                Results.Problem("Invalid operation");
+                return Results.Problem("Invalid operation");
             }
-            //operation.Calculate();
+            
             return Results.Ok(operation.Calculate());
-
         }
         catch (DivideByZeroException ex)
         {
@@ -94,6 +93,45 @@ public static class CalculatorApi
             //return calculationResult;
             return Results.Problem(ex.Message);
 
+        }
+    }
+
+    private static IResult PerformOperation2(CalculationRequest request,
+        ICalculatorService calculator, IValidator<CalculationRequest> _validator)
+    //double operand1, string @operator, double? operand2 = null)
+    {
+
+        try
+        {
+            var validationResult = _validator.Validate(request);
+
+            if (!validationResult.IsValid)
+            {
+                return Results.ValidationProblem(validationResult.ToDictionary());
+            }
+
+            var calculatorResult = calculator.PerformOperation(new Calculation()
+            {
+                Operator = request.Operator,
+                Operand1 = request.Operand1,
+                Operand2 = request.Operand2.Value
+            });
+
+            if (!calculatorResult.IsSuccess)
+            {
+                
+                return Results.Problem("Invalid operation");
+            }
+
+            return Results.Ok(calculatorResult.Operation);
+        }        
+        catch (ArgumentException ex)
+        {
+            return Results.BadRequest(ex.Message);
+        }
+        catch (Exception ex)
+        {            
+            return Results.Problem(ex.Message);
         }
     }
 }

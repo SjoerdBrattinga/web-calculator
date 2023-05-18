@@ -16,7 +16,7 @@
 <script setup lang="ts">
   import { useCalculator } from '@/composables/calculator'
 
-  const { handleButtonClick, buttons } = useCalculator()
+  const { buttons } = useCalculator()
 </script>
 
 <style scoped>

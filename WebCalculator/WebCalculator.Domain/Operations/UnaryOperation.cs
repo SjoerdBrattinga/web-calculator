@@ -15,7 +15,7 @@ public abstract class UnaryOperation : IOperation
 
     public override string ToString()
     {
-        return $"{OperatorType}({Operand})";
+        return $"{OperatorType}({Operand}) ";
     }
 }
 

@@ -1,25 +1,20 @@
-// import axios, { type AxiosResponse } from 'axios';
+import type { CalculatorRequest, CalculatorResponse } from '@/types/types';
+import axios from 'axios';
 
-// interface CalculatorRequest {
-//     operand1: number;
-//     operand2?: number;
-//     operatorType: string;
-// }
 
-// interface CalculatorResult {
-//     result: number | null;
-//     isSuccess: boolean;
-//     errorMessage: string | null;
-// }
 
-// async function calculate(request: CalculatorRequest): Promise<CalculatorResult> {
-//     try {
-//         const response= await axios.post<CalculatorResult>('/calculator', request);
-//         return response.data;
-//     } catch (error) {
-//         console.error(error);
-//         return { result: null, isSuccess: false, errorMessage: error.message };
-//     }
-// }
+const api = axios.create({
+    baseURL: 'https://localhost:7114/api',
+});
 
-// export { CalculatorRequest, CalculatorResult, calculate };
+async function performOperation(request: CalculatorRequest): Promise<CalculatorResponse> {
+    try {
+        const response = await api.post<CalculatorResponse>('/perform-operation', request);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        throw new Error('Failed to perform operation');
+    }
+}
+
+export { performOperation };

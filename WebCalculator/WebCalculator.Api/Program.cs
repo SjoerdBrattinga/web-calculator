@@ -25,6 +25,7 @@ builder.Services.AddTransient<IOperation, Square>();
 builder.Services.AddTransient<IOperation, SquareRoot>();
 builder.Services.AddTransient<IOperation, Exponent>();
 builder.Services.AddTransient<IOperation, Negate>();
+builder.Services.AddTransient<IOperation, Reciprocal>();
 builder.Services.AddSingleton<Func<IEnumerable<IOperation>>>
     (x => () => x.GetService<IEnumerable<IOperation>>()!);
 builder.Services.AddSingleton<IOperationFactory, OperationFactory>();

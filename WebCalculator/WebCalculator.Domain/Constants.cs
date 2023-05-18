@@ -14,7 +14,8 @@ public static class Constants
     {
         "negate",
         "sqr",
-        "sqrt",
+        "√",
+        "1/"
     };
 
     public static readonly List<string> BinaryOperators = new()
