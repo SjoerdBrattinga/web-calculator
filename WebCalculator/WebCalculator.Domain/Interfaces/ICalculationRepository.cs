@@ -3,5 +3,7 @@
     internal interface ICalculationRepository
     {
         //CalculatorMemory operations
+
+        //Calculation history
     }
 }

@@ -30,11 +30,11 @@
   }
   .expression {
     min-height: 20%;
-    font-size: 1.5em;
+    font-size: 1.5rem;
   }
   .value {
     min-height: 80%;
-    font-size: 2.5em;
+    font-size: 2.5rem;
   }
 
   .expression,

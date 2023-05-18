@@ -31,10 +31,9 @@
     background-color: var(--btn-background);
     color: var(--btn-color);
     height: 100%;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     border: 1px solid black;
     border-radius: 10px;
-
     transition: background-color 0.1s ease-in-out, color 0.3s ease-in-out;
   }
   .btn:hover {
@@ -42,16 +41,9 @@
     color: var(--color-primary-5);
     cursor: pointer;
   }
-
-  .operator:hover {
-    /* color: var(--color-primary-5) !important; */
-  }
   .clear:hover {
     color: var(--color-primary-6) !important;
   }
-  /* .equal:hover {
-    color: var(--color-complement-1) !important;
-  } */
   .number {
     background-color: var(--btn-number-background) !important;
   }

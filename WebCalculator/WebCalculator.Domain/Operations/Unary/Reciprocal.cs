@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WebCalculator.Domain.Models;
+﻿using WebCalculator.Domain.Models;
 
 namespace WebCalculator.Domain.Operations.Unary;
 public class Reciprocal : UnaryOperation

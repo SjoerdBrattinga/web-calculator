@@ -9,11 +9,9 @@ public class CalculatorResult
     private CalculatorResult() { }
     public CalculatorResult(OperationResult result)
     {
-
         IsSuccess = result.IsSuccess;
         Operation = result;
         ErrorMessage = result.IsSuccess ? null : result.ErrorMessage;
-
     }
 
     public static CalculatorResult Failure(string errorMessage)

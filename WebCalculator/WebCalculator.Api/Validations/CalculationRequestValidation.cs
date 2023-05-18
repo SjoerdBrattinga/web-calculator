@@ -8,7 +8,6 @@ public class CalculationRequestValidation : AbstractValidator<CalculationRequest
 {
     public CalculationRequestValidation()
     {
-
         RuleFor(request => request.Operator)
             .NotNull()
             .Must(Constants.SupportedOperators.Contains)
@@ -22,7 +21,7 @@ public class CalculationRequestValidation : AbstractValidator<CalculationRequest
         When(x => Constants.BinaryOperators.Contains(x.Operator), () =>
         {
             RuleFor(x => x.Operand1).NotNull()
-                .WithMessage("Operand2 is required with binary operators: " + String.Join(" ", Constants.BinaryOperators)); 
+                .WithMessage("Operand2 is required with binary operators: " + String.Join(" ", Constants.BinaryOperators));
             RuleFor(x => x.Operand2).NotNull()
                 .WithMessage("Operand2 is required with binary operators: " + String.Join(" ", Constants.BinaryOperators));
         });

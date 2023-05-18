@@ -1,8 +1,6 @@
 import type { CalculatorRequest, CalculatorResponse } from '@/types/types';
 import axios from 'axios';
 
-
-
 const api = axios.create({
     baseURL: 'https://localhost:7114/api',
 });

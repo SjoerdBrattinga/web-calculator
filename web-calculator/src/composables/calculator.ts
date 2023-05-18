@@ -2,24 +2,29 @@ import { performOperation } from '@/services/calculator-service'
 import type { Button, CalculatorResponse } from '@/types/types'
 import { ref } from 'vue'
 
-
-
+// Display shows entry and results
 const display = ref('0')
+// Expression shows the current or calculated operation
 const expression = ref('')
+// Shows all performed calculations
 const history = ref<string[]>([])
 
+// display, expression and history
+// have to be outside of useCalculator otherwise the components wont get the correct state
+
 export const useCalculator = () => {
+  // Valid operators
   const unaryOperators = ['negate', 'sqr', '√', '1/']
   const binaryOperators = ['+', '-', '*', '/', '^']
 
+  // Used for deciding what to do based on previous action
   type buttonTypes = 'operator' | 'number' | 'equal'
   let lastClicked: buttonTypes
 
+  // Used to make calculation requests on the server
   const number1 = ref('')
   const number2 = ref('')
   const operator = ref('')
-  // const result = ref('')
-
 
   const handleNumberClick = (buttonValue: string) => {
     resetIfError()
@@ -38,52 +43,32 @@ export const useCalculator = () => {
     resetIfError();
 
     if (unaryOperators.includes(buttonValue)) {
-
-      console.log('is unary')
-      console.log('buttonValue ' + buttonValue)
-      console.log('operatorValue ' + operator.value)
-
       // Calculate result if previous input is a valid binary operation
       if (binaryOperators.includes(operator.value)) {
-
         if (number1.value !== '' && lastClicked !== 'operator') {
           number2.value = display.value
           if (isValidOperation()) {
             await calculate().then(response => {
-              handleResponse(response)
+              handleBinaryResult(response)
               number2.value = ''
             })
           }
-          // console.log('1st is valid')
-          // await calculate().then(response => {
-          //   console.log('1st response ', response)
-          //   // handleResponse(response)
-          //   // if (response.isSuccess) {
-          //   //   expression.value += response.operation
-          //   // }
-          //   if (response.isSuccess) {
-          //     display.value = response.result.toString()
-          //   }
-          // })
         }
-      } else {
-        console.log('1st not valid')
       }
 
       number1.value = display.value
+      //Set current operator value
       operator.value = buttonValue
 
-      console.log('operatorValue ' + operator.value)
+      // Perform unary operation
       if (isValidOperation()) {
-        console.log('2nd is valid')
         await calculate().then(response => {
-          console.log('2st response ', response)
           handleUnaryResult(response)
-
-
         })
       }
-    } else if (lastClicked === 'equal' && number2.value !== '') {
+    }
+    // If last click was equal and number2 is not empty skip binary operation
+    else if (lastClicked === 'equal' && number2.value !== '') {
       number2.value = ''
       expression.value = `${number1.value} ${buttonValue}`
     } else if (binaryOperators.includes(buttonValue)) {
@@ -93,7 +78,7 @@ export const useCalculator = () => {
         number2.value = display.value
         if (isValidOperation()) {
           await calculate().then(response => {
-            handleResponse(response)
+            handleBinaryResult(response)
             number2.value = ''
           })
         }
@@ -122,6 +107,7 @@ export const useCalculator = () => {
   }
 
   const isUnaryOperation = () => unaryOperators.includes(operator.value);
+
   const isBinaryOperation = () => binaryOperators.includes(operator.value);
 
   const isValidOperation = () => {
@@ -134,37 +120,35 @@ export const useCalculator = () => {
     }
   }
 
-  function handleResponse(response: CalculatorResponse) {
+  function handleBinaryResult(response: CalculatorResponse) {
     if (response.isSuccess) {
-      console.log(response.result)
       number1.value = response.result.toString()
       display.value = number1.value
       history.value.push(`${response.operation} = ${response.result}`)
     } else {
-      resetOperationParams()
-      expression.value = response.errorMessage
-      display.value = 'ERROR'
+      handleErrorResponse(response.errorMessage)
     }
   }
 
   function handleUnaryResult(response: CalculatorResponse) {
     if (response.isSuccess) {
-      console.log(response.result)
       expression.value = `${response.operation}`
       history.value.push(`${response.operation} = ${response.result}`)
       number1.value = response.result.toString()
       display.value = number1.value
 
     } else {
-      resetOperationParams()
-      expression.value = response.errorMessage
-      display.value = 'ERROR'
+      handleErrorResponse(response.errorMessage)
     }
   }
 
+  function handleErrorResponse(errorMessage: string) {
+    resetOperationParams()
+    expression.value = errorMessage
+    display.value = 'ERROR'
+  }
+
   async function handleEqual(): Promise<void> {
-
-
     if (!operator.value) {
       number1.value = display.value
       operator.value = '='
@@ -172,7 +156,6 @@ export const useCalculator = () => {
     } else if (isValidOperation()) {
       await calculate().then(response => handleEqualResult(response))
     } else if (binaryOperators.includes(operator.value) && number1.value !== '') {
-
       number2.value = display.value
       if (isValidOperation()) {
         await calculate().then(response => handleEqualResult(response))
@@ -182,14 +165,14 @@ export const useCalculator = () => {
   }
 
   const handleEqualResult = (response: CalculatorResponse) => {
-    handleResponse(response)
+    handleBinaryResult(response)
 
     if (response.isSuccess) {
       expression.value = `${response.operation} =`
     }
   }
 
-  function resetIfError() {
+  const resetIfError = () => {
     if (display.value === 'ERROR' || display.value === 'Infinity') {
       handleClear()
       return true
@@ -224,8 +207,6 @@ export const useCalculator = () => {
         resetExpressionValue()
       }
     }
-
-
   }
 
   const resetOperationParams = () => {
@@ -274,8 +255,7 @@ export const useCalculator = () => {
     display,
     expression,
     history,
-    buttons,
-    handleButtonClick
+    buttons
   }
 }
 

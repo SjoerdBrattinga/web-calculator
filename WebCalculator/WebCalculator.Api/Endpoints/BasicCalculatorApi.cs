@@ -1,9 +1,4 @@
-﻿using FluentValidation;
-using WebCalculator.Domain.Interfaces;
-using WebCalculator.Domain.Models;
-using WebCalculator.Models;
-
-namespace WebCalculator.Api.Endpoints;
+﻿namespace WebCalculator.Api.Endpoints;
 
 public static class BasicCalculatorApi
 {
@@ -16,7 +11,7 @@ public static class BasicCalculatorApi
         app.MapGet("/api/negate/{number}", (double number) => -number).Produces<double>().Produces(400);
         app.MapGet("/api/sqrt/{number}", (double number) => Math.Sqrt(number)).Produces<double>().Produces(400);
         app.MapGet("/api/pow/{number1}/{number2}", (double number1, double number2) => Math.Pow(number1, number2)).Produces<double>().Produces(400);
-    } 
+    }
 }
 
 

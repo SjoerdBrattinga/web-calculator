@@ -1,6 +1,4 @@
-﻿using System.Security.Cryptography.X509Certificates;
-using WebCalculator.Domain;
-using WebCalculator.Domain.Interfaces;
+﻿using WebCalculator.Domain.Interfaces;
 using WebCalculator.Domain.Operations;
 
 namespace WebCalculator.Application;
@@ -15,7 +13,6 @@ public class OperationFactory : IOperationFactory
     }
     public IOperation Create(string operatorType)
     {
-        //TODO: validate input
         var set = _factory();
         IOperation operation = set.Where(x => x.OperatorType == operatorType.ToLower()).First();
 
@@ -26,11 +23,11 @@ public class OperationFactory : IOperationFactory
     {
         IOperation operation = Create(operatorType);
 
-        if(operation is UnaryOperation unary)
+        if (operation is UnaryOperation unary)
         {
             unary.Operand = operand1;
-        } 
-        else if(operation is BinaryOperation binary && operand2.HasValue)
+        }
+        else if (operation is BinaryOperation binary && operand2.HasValue)
         {
             binary.Operand1 = operand1;
             binary.Operand2 = operand2.Value;

@@ -4,6 +4,6 @@ namespace WebCalculator.Domain.Interfaces;
 
 public interface ICalculatorService
 {
-    CalculatorResult Calculate(Calculation operation);
+    CalculatorResult CalculateExpression(List<double> values, List<string> @operator);
     CalculatorResult PerformOperation(Calculation operation);
 }

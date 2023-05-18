@@ -10,6 +10,7 @@
 
 <script setup lang="ts">
   import { useCalculator } from '@/composables/calculator'
+
   const { history } = useCalculator()
 </script>
 
