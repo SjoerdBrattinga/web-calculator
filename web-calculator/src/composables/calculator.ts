@@ -25,9 +25,9 @@ export const useCalculator = () => {
   const number2 = ref('')
   const operator = ref('')
 
-  const isUnaryOperation = () => unaryOperators.includes(operator.value);
+  const isUnaryOperation = () => unaryOperators.includes(operator.value)
 
-  const isBinaryOperation = () => binaryOperators.includes(operator.value);
+  const isBinaryOperation = () => binaryOperators.includes(operator.value)
 
   const handleNumberClick = (buttonValue: string) => {
     resetIfError()
@@ -43,17 +43,16 @@ export const useCalculator = () => {
   }
 
   const handleButtonClick = async (buttonValue: string) => {
-    resetIfError();
+    resetIfError()
 
     if (unaryOperators.includes(buttonValue)) {
       // Calculate result if previous input is a valid binary operation
       if (binaryOperators.includes(operator.value)) {
-
         if (number1.value !== '' && lastClicked !== 'operator') {
           number2.value = display.value
 
           if (isValidOperation()) {
-            await calculate().then(response => {
+            await calculate().then((response) => {
               handleResult(response)
               number2.value = ''
             })
@@ -67,7 +66,7 @@ export const useCalculator = () => {
 
       // Perform unary operation
       if (isValidOperation()) {
-        await calculate().then(response => {
+        await calculate().then((response) => {
           handleUnaryResult(response)
         })
       }
@@ -76,16 +75,14 @@ export const useCalculator = () => {
     else if (lastClicked === 'equal' && number2.value !== '') {
       number2.value = ''
       expression.value = `${number1.value} ${buttonValue}`
-
     } else if (binaryOperators.includes(buttonValue)) {
       if (number1.value === '') {
         number1.value = display.value
-
       } else if (lastClicked !== 'operator') {
         number2.value = display.value
 
         if (isValidOperation()) {
-          await calculate().then(response => {
+          await calculate().then((response) => {
             handleResult(response)
             number2.value = ''
           })
@@ -116,11 +113,11 @@ export const useCalculator = () => {
 
   const isValidOperation = () => {
     if (number1.value !== '' && isUnaryOperation()) {
-      return true;
+      return true
     } else if (number1.value !== '' && isBinaryOperation() && number2.value !== '') {
-      return true;
+      return true
     } else {
-      return false;
+      return false
     }
   }
 
@@ -140,7 +137,6 @@ export const useCalculator = () => {
       history.value.push(`${response.operation} = ${response.result}`)
       number1.value = response.result.toString()
       display.value = number1.value
-
     } else {
       handleErrorResponse(response.errorMessage)
     }
@@ -158,15 +154,13 @@ export const useCalculator = () => {
       operator.value = '='
 
       updateExpressionValue()
-
     } else if (isValidOperation()) {
-      await calculate().then(response => handleEqualResult(response))
-
+      await calculate().then((response) => handleEqualResult(response))
     } else if (binaryOperators.includes(operator.value) && number1.value !== '') {
       number2.value = display.value
 
       if (isValidOperation()) {
-        await calculate().then(response => handleEqualResult(response))
+        await calculate().then((response) => handleEqualResult(response))
       }
     }
     lastClicked = 'equal'
@@ -197,9 +191,9 @@ export const useCalculator = () => {
     history.value = []
   }
 
-  const resetDisplayValue = () => display.value = '0'
+  const resetDisplayValue = () => (display.value = '0')
 
-  const resetExpressionValue = () => expression.value = ''
+  const resetExpressionValue = () => (expression.value = '')
 
   const handleBackspace = () => {
     const displayCleared = resetIfError()
@@ -227,6 +221,13 @@ export const useCalculator = () => {
     expression.value = `${number1.value} ${operator.value}`
   }
 
+  // This should probably be moved to the calculator buttons component. 
+  //
+  // Instead of exporting this button array, a function handle buttonClick should be exported
+  // Instead of having a function property, a button object should have a property buttonType:ButtonTypes
+  // The CalculatorButtons component then calls handleButtonClick and return the button object instead of buttonValue
+  // Handle button click would then decide on the buttonType wich method should be called
+  // This would make the logic more organised and readable
   const buttons: Button[] = [
     { label: 'xʸ', value: '^', class: 'operator', function: handleButtonClick },
     { label: 'CE', value: 'clear-entry', class: 'clear', function: resetDisplayValue },
@@ -266,5 +267,3 @@ export const useCalculator = () => {
     buttons
   }
 }
-
-
