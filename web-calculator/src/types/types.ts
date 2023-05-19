@@ -1,3 +1,5 @@
+export type ButtonTypes = 'operator' | 'number' | 'equal'
+
 export interface Button {
     label: string
     value: string
@@ -5,6 +7,7 @@ export interface Button {
     function: Function
 }
 
+// For calculating expressions, not implemented
 export interface CalculatorInput {
     values: number[]
     operators: string[]

@@ -7,7 +7,7 @@ namespace WebCalculator.Validations;
 public class CalculationRequestValidation : AbstractValidator<CalculationRequest>
 {
     public CalculationRequestValidation()
-    {
+    {        
         RuleFor(request => request.Operator)
             .NotNull()
             .Must(Constants.SupportedOperators.Contains)

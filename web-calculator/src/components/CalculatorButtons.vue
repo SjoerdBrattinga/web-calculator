@@ -7,7 +7,6 @@
       :key="button.value"
       @click="button.function(button.value)"
     >
-      <!-- handleButtonClick(button) button.function(button.value)-->
       {{ button.label }}
     </button>
   </div>

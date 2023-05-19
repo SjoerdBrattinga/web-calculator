@@ -2,6 +2,7 @@
 
 public static class BasicCalculatorApi
 {
+    // Basic operations, not used in web app.
     public static void ConfigureBasicCalculatorApi(this WebApplication app)
     {
         app.MapGet("/api/add/{number1}/{number2}", (double number1, double number2) => number1 + number2).Produces<double>().Produces(400);

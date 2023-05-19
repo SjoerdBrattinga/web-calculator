@@ -1,5 +1,5 @@
 import { performOperation } from '@/services/calculator-service'
-import type { Button, CalculatorResponse } from '@/types/types'
+import type { Button, ButtonTypes, CalculatorResponse } from '@/types/types'
 import { ref } from 'vue'
 
 // Display shows entry and results
@@ -18,13 +18,16 @@ export const useCalculator = () => {
   const binaryOperators = ['+', '-', '*', '/', '^']
 
   // Used for deciding what to do based on previous action
-  type buttonTypes = 'operator' | 'number' | 'equal'
-  let lastClicked: buttonTypes
+  let lastClicked: ButtonTypes
 
   // Used to make calculation requests on the server
   const number1 = ref('')
   const number2 = ref('')
   const operator = ref('')
+
+  const isUnaryOperation = () => unaryOperators.includes(operator.value);
+
+  const isBinaryOperation = () => binaryOperators.includes(operator.value);
 
   const handleNumberClick = (buttonValue: string) => {
     resetIfError()
@@ -45,11 +48,13 @@ export const useCalculator = () => {
     if (unaryOperators.includes(buttonValue)) {
       // Calculate result if previous input is a valid binary operation
       if (binaryOperators.includes(operator.value)) {
+
         if (number1.value !== '' && lastClicked !== 'operator') {
           number2.value = display.value
+
           if (isValidOperation()) {
             await calculate().then(response => {
-              handleBinaryResult(response)
+              handleResult(response)
               number2.value = ''
             })
           }
@@ -71,14 +76,17 @@ export const useCalculator = () => {
     else if (lastClicked === 'equal' && number2.value !== '') {
       number2.value = ''
       expression.value = `${number1.value} ${buttonValue}`
+
     } else if (binaryOperators.includes(buttonValue)) {
       if (number1.value === '') {
         number1.value = display.value
+
       } else if (lastClicked !== 'operator') {
         number2.value = display.value
+
         if (isValidOperation()) {
           await calculate().then(response => {
-            handleBinaryResult(response)
+            handleResult(response)
             number2.value = ''
           })
         }
@@ -106,10 +114,6 @@ export const useCalculator = () => {
     }
   }
 
-  const isUnaryOperation = () => unaryOperators.includes(operator.value);
-
-  const isBinaryOperation = () => binaryOperators.includes(operator.value);
-
   const isValidOperation = () => {
     if (number1.value !== '' && isUnaryOperation()) {
       return true;
@@ -120,7 +124,7 @@ export const useCalculator = () => {
     }
   }
 
-  function handleBinaryResult(response: CalculatorResponse) {
+  function handleResult(response: CalculatorResponse) {
     if (response.isSuccess) {
       number1.value = response.result.toString()
       display.value = number1.value
@@ -152,11 +156,15 @@ export const useCalculator = () => {
     if (!operator.value) {
       number1.value = display.value
       operator.value = '='
+
       updateExpressionValue()
+
     } else if (isValidOperation()) {
       await calculate().then(response => handleEqualResult(response))
+
     } else if (binaryOperators.includes(operator.value) && number1.value !== '') {
       number2.value = display.value
+
       if (isValidOperation()) {
         await calculate().then(response => handleEqualResult(response))
       }
@@ -165,7 +173,7 @@ export const useCalculator = () => {
   }
 
   const handleEqualResult = (response: CalculatorResponse) => {
-    handleBinaryResult(response)
+    handleResult(response)
 
     if (response.isSuccess) {
       expression.value = `${response.operation} =`

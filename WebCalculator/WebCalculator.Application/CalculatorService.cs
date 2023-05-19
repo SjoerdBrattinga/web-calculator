@@ -41,7 +41,7 @@ public class CalculatorService : ICalculatorService
 
     private bool IsCloseToInteger(double value)
     {
-        // Round numbers like: 0.0000000001 
+        // Round numbers like: 0.0000000004 
         const double epsilon = 1e-10;
         var rounded = Math.Round(value);
 
@@ -49,7 +49,9 @@ public class CalculatorService : ICalculatorService
     }
 
 
-    // Not implemented, work in progres :)
+
+
+    // Not implemented, work in progres... 
     public CalculatorResult CalculateExpression(List<double> values, List<string> @operator)
     {
         List<IOperation> operations = new();

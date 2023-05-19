@@ -12,6 +12,8 @@
   import { useCalculator } from '@/composables/calculator'
 
   const { history } = useCalculator()
+
+  //TODO: Clear history
 </script>
 
 <style scoped>

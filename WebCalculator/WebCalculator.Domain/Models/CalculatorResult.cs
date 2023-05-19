@@ -5,8 +5,8 @@ public class CalculatorResult
     public bool IsSuccess { get; set; }
     public OperationResult? Operation { get; set; }
     public string? ErrorMessage { get; set; }
-
     private CalculatorResult() { }
+
     public CalculatorResult(OperationResult result)
     {
         IsSuccess = result.IsSuccess;
